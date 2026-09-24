@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mi Curso · Registro de notas</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#f5f4fb;--card:#fff;--tx:#1e1b3a;--mu:#6b6890;--bd:#e7e5f4;--ac:#6c5ce7;--ac2:#a29bfe;--ok:#0ca678;--bad:#e8435f;--sh:0 8px 28px rgba(80,70,160,.08)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12112a;--card:#1c1b3a;--tx:#ecebff;--mu:#9e9bc7;--bd:#2c2a52;--sh:0 8px 28px rgba(0,0,0,.3)}}
+:root[data-theme="dark"]{--bg:#12112a;--card:#1c1b3a;--tx:#ecebff;--mu:#9e9bc7;--bd:#2c2a52;--sh:0 8px 28px rgba(0,0,0,.3)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.5 'Plus Jakarta Sans',system-ui,-apple-system,'Segoe UI',sans-serif;background-image:radial-gradient(900px 380px at 90% -10%,color-mix(in srgb,var(--ac) 20%,transparent),transparent)}
+.wrap{max-width:1100px;margin:0 auto;padding:22px 16px 60px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+h1{margin:0;font-size:28px;font-weight:800;letter-spacing:-.5px}
+h1 span{background:linear-gradient(90deg,var(--ac),#e84393);-webkit-background-clip:text;background-clip:text;color:transparent}
+h3{margin:0 0 12px;font-size:16px}h4{margin:14px 0 6px;font-size:13px;color:var(--mu);text-transform:uppercase;letter-spacing:.5px}
+.sub{color:var(--mu);margin:2px 0 0}
+.pill{font-size:12px;padding:5px 11px;border-radius:99px;background:var(--card);border:1px solid var(--bd);color:var(--mu)}
+nav{display:flex;gap:6px;overflow-x:auto;margin:18px 0;padding-bottom:4px}
+nav button{white-space:nowrap;border:1px solid var(--bd);background:var(--card);color:var(--mu);padding:9px 15px;border-radius:99px;font:inherit;font-weight:600;cursor:pointer}
+nav button.on{background:var(--ac);color:#fff;border-color:var(--ac);box-shadow:0 6px 16px color-mix(in srgb,var(--ac) 40%,transparent)}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:18px;box-shadow:var(--sh)}
+.grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(290px,1fr))}
+.stats{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));margin-bottom:16px}
+.stat small{color:var(--mu);font-weight:600}.stat b{display:block;font-size:32px;font-weight:800;line-height:1.2}
+.two{display:grid;gap:16px;grid-template-columns:2fr 1fr;margin-bottom:16px}
+@media(max-width:800px){.two{grid-template-columns:1fr}}
+input,select{font:inherit;color:var(--tx);background:var(--bg);border:1px solid var(--bd);border-radius:10px;padding:8px 10px;min-width:0;width:100%}
+input:focus,select:focus{outline:2px solid var(--ac2);border-color:transparent}
+input[type=color]{width:38px;height:38px;padding:2px;flex:none;cursor:pointer}
+.btn{background:var(--ac);color:#fff;border:0;border-radius:10px;padding:9px 14px;font-family:inherit;font-weight:600;cursor:pointer;white-space:nowrap}
+.btn.ghost{background:var(--bg);color:var(--tx);border:1px solid var(--bd)}.btn:hover{filter:brightness(1.08)}
+.x{background:none;border:0;color:var(--mu);cursor:pointer;font-size:13px;padding:4px 6px;border-radius:8px;white-space:nowrap}.x:hover{color:var(--bad);background:color-mix(in srgb,var(--bad) 12%,transparent)}
+.row{display:flex;gap:8px;align-items:center;margin-bottom:8px}.row>.btn{flex:none}
+.hd{display:flex;gap:8px;align-items:center;margin-bottom:12px}.nm{font-weight:700;font-size:16px}
+.tri{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.tri label{font-size:11px;color:var(--mu);font-weight:600}.tri input{text-align:center;font-weight:700;margin-top:2px}
+.ms{display:flex;justify-content:space-between;margin:12px 0 4px;font-size:13px;color:var(--mu)}.ms b{font-size:17px;color:var(--tx)}.ms b.ok{color:var(--ok)}.ms b.bad{color:var(--bad)}
+.hint{margin:4px 0 0;font-size:12px;color:var(--mu)}
+.ex{display:grid;grid-template-columns:1fr 70px auto;gap:6px;margin-bottom:6px}.ex .g{text-align:center;font-weight:700}
+table{width:100%;border-collapse:collapse;font-size:14px}th{font-size:11px;text-transform:uppercase;color:var(--mu);text-align:left;padding:6px}td{padding:8px 6px;border-top:1px solid var(--bd)}td.c,th.c{text-align:center}
+.ok{color:var(--ok)}.bad{color:var(--bad)}.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:7px}
+.bar{height:10px;background:var(--bg);border-radius:9px;overflow:hidden;border:1px solid var(--bd)}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--ac),#e84393);border-radius:9px}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}.dh{text-align:center;font-size:12px;font-weight:700;color:var(--mu);padding:4px}
+.day{min-height:84px;border:1px solid var(--bd);border-radius:10px;padding:4px;cursor:pointer;overflow:hidden;background:var(--bg)}.day.off{background:none;border-color:transparent;cursor:default}
+.day.sel{outline:2px solid var(--ac)}.day b{font-size:12px}.day.today b{background:var(--ac);color:#fff;border-radius:99px;padding:0 6px}
+.chip{display:block;color:#fff;font-size:10px;border-radius:5px;padding:1px 4px;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.day small{font-size:10px;color:var(--mu)}
+@media(max-width:600px){.day{min-height:58px}.chip{font-size:0;height:6px;padding:0}}
+.goal{display:flex;align-items:center;gap:10px;padding:8px 0;border-top:1px solid var(--bd)}.goal.done span{text-decoration:line-through;color:var(--mu)}.goal input[type=checkbox]{width:18px;height:18px;flex:none}.goal span{flex:1}
+.auth{max-width:400px;margin:7vh auto}.auth input{margin-bottom:10px}.err{color:var(--bad);font-size:13px;margin:0 0 10px}.empty{text-align:center;color:var(--mu);padding:30px 10px}.scroll{overflow-x:auto}
+</style></head><body><div class="wrap" id="app"></div>
+<script>
+const $=s=>document.querySelector(s),uid=()=>Math.random().toString(36).slice(2,9);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const PAL=['#6c5ce7','#00b894','#e17055','#0984e3','#e84393','#f0a500','#00a8b5','#d63031','#6ab04c','#8e44ad'];
+const pad=n=>String(n).padStart(2,'0'),iso=(y,m,d)=>`${y}-${pad(m+1)}-${pad(d)}`,now=new Date(),T=iso(now.getFullYear(),now.getMonth(),now.getDate());
+let S={subjects:[],events:[],goals:[],meta:{goal:null,theme:null}},TAB='dash',U=null,AM='login',AERR='',AN='',FAIL=0,LOCK=0,ARM=null,ST='Cargando…',C={y:now.getFullYear(),m:now.getMonth(),sel:T};
+/* ---------- BASE DE DATOS (IndexedDB, un almacén por colección) ---------- */
+const DB={db:null,ok:false,
+ open(n){return new Promise(r=>{try{const q=indexedDB.open(n,1);q.onupgradeneeded=()=>{['subjects','events','goals','meta'].forEach(n=>q.result.createObjectStore(n,{keyPath:'id'}))};q.onsuccess=()=>{this.db=q.result;this.ok=true;r(true)};q.onerror=q.onblocked=()=>r(false)}catch(e){r(false)}})},
+ tx(n,m,f){return new Promise((res,rej)=>{if(!this.db)return res([]);const t=this.db.transaction(n,m),rq=f(t.objectStore(n));t.oncomplete=()=>res(rq&&rq.result);t.onerror=t.onabort=()=>rej(t.error)})},
+ all:function(n){return this.tx(n,'readonly',o=>o.getAll())},
+ put:function(n,v){return this.tx(n,'readwrite',o=>o.put(v))},
+ del:function(n,id){return this.tx(n,'readwrite',o=>o.delete(id))},
+ replaceAll(d){return new Promise((res,rej)=>{if(!this.db)return res();const t=this.db.transaction(['subjects','events','goals','meta'],'readwrite');['subjects','events','goals'].forEach(n=>{const o=t.objectStore(n);o.clear();d[n].forEach(v=>o.put(v))});const m=t.objectStore('meta');m.clear();m.put({...d.meta,id:'meta'});t.oncomplete=res;t.onerror=t.onabort=()=>rej(t.error)})}};
+const setSt=t=>{ST=t;const e=$('#st');if(e)e.textContent=t};
+async function run(p){if(!DB.ok)return setSt('Solo en memoria');setSt('Guardando…');try{await p();setSt('Guardado ✓')}catch(e){setSt('Error al guardar')}}
+const save=(st,o)=>run(()=>DB.put(st,o)),rm=(st,id)=>run(()=>DB.del(st,id)),saveMeta=()=>run(()=>DB.put('meta',{...S.meta,id:'meta'}));
+/* ---------- cálculos ---------- */
+const num=v=>{v=String(v).replace(',','.').trim();if(!v)return null;const n=parseFloat(v);return isNaN(n)?null:Math.min(10,Math.max(0,n))};
+const avg=a=>{a=a.filter(v=>v!=null);return a.length?a.reduce((x,y)=>x+y,0)/a.length:null};
+const fv=n=>n==null?'':String(n).replace('.',','),f2=n=>n==null?'—':String(+n.toFixed(2)).replace('.',','),cl=n=>n==null?'':n>=5?'ok':'bad';
+const rec=(s,i)=>s.t[i]!=null&&s.t[i]<5&&s.r[i]!=null,effT=s=>s.t.map((v,i)=>rec(s,i)?s.r[i]:v),fn=s=>s.final!=null?s.final:avg(effT(s)),sub=id=>S.subjects.find(s=>s.id===id);
+function stats(){const fin=S.subjects.map(fn).filter(v=>v!=null),ex=S.subjects.flatMap(s=>s.exams.map(x=>x.g)).filter(v=>v!=null);return{tot:avg(fin),ex:avg(ex),nex:ex.length,ap:fin.filter(v=>v>=5).length,su:fin.filter(v=>v<5).length}}
+function need(s){if(s.goal==null)return'';const f=effT(s).filter(v=>v!=null),r=3-f.length;if(!r)return avg(f)>=s.goal?'🎉 Objetivo conseguido':'Objetivo no alcanzado';const x=(s.goal*3-f.reduce((a,b)=>a+b,0))/r;return x<=0?'✅ Objetivo ya asegurado':x>10?'Inalcanzable con los trimestres restantes':`Necesitas un ${f2(x)} de media en ${r} trimestre(s) restante(s)`}
+const dias=d=>{const n=Math.round((new Date(d)-new Date(T))/864e5);return n===0?'hoy':n===1?'mañana':`en ${n} días`};
+/* ---------- vistas ---------- */
+const dash=()=>{const st=stats(),up=S.events.filter(e=>e.date>=T&&sub(e.sid)).sort((a,b)=>a.date.localeCompare(b.date)).slice(0,6),g=S.meta.goal;
+if(!S.subjects.length)return`<div class="card empty">Aún no hay asignaturas.<br>Ve a <b>Asignaturas</b> y añade la primera 📚</div>`;
+const pct=g&&st.tot!=null?Math.min(100,st.tot/g*100):0;
+return`<div class="stats">${[['Media total',f2(st.tot),cl(st.tot)],['Media de exámenes',f2(st.ex),cl(st.ex)],['Aprobadas / Suspensas',st.ap+' / '+st.su,''],['Exámenes hechos',st.nex,'']].map(a=>`<div class="card stat"><small>${a[0]}</small><b class="${a[2]}">${a[1]}</b></div>`).join('')}</div>
+<div class="two"><div class="card scroll"><h3>Resumen por asignatura</h3><table><tr><th>Asignatura</th><th class="c">1T</th><th class="c">2T</th><th class="c">3T</th><th class="c">Final</th><th class="c">Exám.</th><th class="c">Obj.</th></tr>${S.subjects.map(s=>`<tr><td><span class="dot" style="background:${s.color}"></span>${esc(s.name)}</td>${s.t.map((v,i)=>`<td class="c">${f2(rec(s,i)?s.r[i]:v)}${rec(s,i)?'<sup title="Recuperada"> R</sup>':''}</td>`).join('')}<td class="c"><b class="${cl(fn(s))}">${f2(fn(s))}</b></td><td class="c">${f2(avg(s.exams.map(x=>x.g)))}</td><td class="c">${f2(s.goal)}</td></tr>`).join('')}</table></div>
+<div class="card"><h3>Próximos exámenes</h3>${up.length?up.map(e=>`<div class="row"><span class="dot" style="background:${sub(e.sid).color}"></span><div style="flex:1"><b>${esc(e.title)}</b><div class="hint">${esc(sub(e.sid).name)} · ${e.date.split('-').reverse().join('/')}</div></div><span class="pill">${dias(e.date)}</span></div>`).join(''):'<div class="hint">No hay exámenes próximos.</div>'}</div></div>
+<div class="card"><h3>Objetivo global</h3>${g?`<div class="row"><b>${f2(st.tot)} / ${f2(g)}</b></div><div class="bar"><i style="width:${pct}%"></i></div>`:'<div class="hint">Define tu nota media objetivo en la pestaña Objetivos.</div>'}<div class="hint" style="margin-top:8px">Metas cumplidas: ${S.goals.filter(x=>x.done).length} de ${S.goals.length}</div></div>`};
+const subs=()=>`<div class="card row" style="margin-bottom:16px"><input id="nsub" data-enter="addsub" placeholder="Nueva asignatura (ej. Matemáticas)"><button class="btn" data-act="addsub">+ Añadir</button></div>
+${S.subjects.length?`<div class="grid">${S.subjects.map(s=>{const k='s:'+s.id,ex=s.exams.filter(x=>x.g!=null).length;return`<div class="card" style="border-top:5px solid ${s.color}">
+<div class="hd"><input type="color" value="${s.color}" data-f="color" data-id="${s.id}"><input class="nm" value="${esc(s.name)}" data-f="name" data-id="${s.id}"><button class="x" data-act="del" data-k="${k}">${ARM===k?'¿Seguro?':'✕'}</button></div>
+<div class="tri">${['1T','2T','3T'].map((l,i)=>`<label>${l}<input inputmode="decimal" placeholder="–" value="${fv(s.t[i])}" data-f="t${i}" data-id="${s.id}"></label>`).join('')}<label>Final<input inputmode="decimal" placeholder="${avg(effT(s))!=null?f2(avg(effT(s))):'auto'}" value="${fv(s.final)}" data-f="final" data-id="${s.id}"></label></div>
+${s.t.some(v=>v!=null&&v<5)?`<div style="margin-top:10px">${s.t.map((v,i)=>v!=null&&v<5?`<div class="row" style="margin-bottom:6px"><span class="hint" style="flex:1;margin:0">🔁 Recuperación ${i+1}T <span class="bad">(suspendida: ${f2(v)})</span></span><input inputmode="decimal" style="width:70px;text-align:center" placeholder="Nota" value="${fv(s.r[i])}" data-f="r${i}" data-id="${s.id}"></div>`:'').join('')}</div>`:''}<div class="ms"><span>Nota final<br><b class="${cl(fn(s))}">${f2(fn(s))}</b></span><span style="text-align:right">Media exámenes<br><b>${f2(avg(s.exams.map(x=>x.g)))}</b></span></div>
+<div class="row" style="margin-top:10px">🎯 Objetivo <input inputmode="decimal" style="width:80px;text-align:center" placeholder="–" value="${fv(s.goal)}" data-f="goal" data-id="${s.id}"></div><p class="hint">${need(s)}</p>
+<h4>Exámenes (${ex}/${s.exams.length} con nota)</h4>
+${s.exams.map(x=>{const k2=`x:${s.id}:${x.id}`;return`<div class="ex"><input value="${esc(x.n)}" data-f="exn" data-id="${s.id}" data-x="${x.id}"><input class="g" inputmode="decimal" placeholder="–" value="${fv(x.g)}" data-f="exg" data-id="${s.id}" data-x="${x.id}"><button class="x" data-act="del" data-k="${k2}">${ARM===k2?'¿Seguro?':'✕'}</button></div>`}).join('')}
+<div class="row" style="margin-top:8px"><input type="number" min="1" max="20" value="1" id="nx-${s.id}" style="width:64px"><button class="btn ghost" data-act="addex" data-id="${s.id}" style="flex:1">+ Añadir exámenes</button></div></div>`}).join('')}</div>`:'<div class="card empty">Añade tu primera asignatura 👆</div>'}`;
+const calV=()=>{const{y,m}=C,off=(new Date(y,m,1).getDay()+6)%7,dim=new Date(y,m+1,0).getDate();let h=['L','M','X','J','V','S','D'].map(d=>`<div class="dh">${d}</div>`).join('')+'<div class="day off"></div>'.repeat(off);
+for(let d=1;d<=dim;d++){const k=iso(y,m,d),ev=S.events.filter(e=>e.date===k&&sub(e.sid));h+=`<div class="day${k===T?' today':''}${k===C.sel?' sel':''}" data-act="sel" data-d="${k}"><b>${d}</b>${ev.slice(0,2).map(e=>`<span class="chip" style="background:${sub(e.sid).color}">${esc(e.title)}</span>`).join('')}${ev.length>2?`<small>+${ev.length-2}</small>`:''}</div>`}
+const de=S.events.filter(e=>e.date===C.sel&&sub(e.sid));
+return`<div class="card"><div class="row"><button class="btn ghost" data-act="prev">‹</button><h3 style="flex:1;text-align:center;margin:0;text-transform:capitalize">${new Date(y,m).toLocaleDateString('es-ES',{month:'long',year:'numeric'})}</h3><button class="btn ghost" data-act="next">›</button><button class="btn ghost" data-act="today">Hoy</button></div><div class="cal">${h}</div>
+<div style="margin-top:18px"><h3>${C.sel.split('-').reverse().join('/')}</h3>${de.map(e=>`<div class="row"><span class="dot" style="background:${sub(e.sid).color}"></span><span style="flex:1"><b>${esc(e.title)}</b> · ${esc(sub(e.sid).name)}</span><button class="x" data-act="del" data-k="e:${e.id}">${ARM==='e:'+e.id?'¿Seguro?':'✕'}</button></div>`).join('')||'<div class="hint">Sin exámenes este día.</div>'}
+${S.subjects.length?`<div class="row" style="margin-top:10px"><select id="evs">${S.subjects.map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join('')}</select><input id="evt" data-enter="addev" value="Examen"><button class="btn" data-act="addev">+ Añadir</button></div>`:'<div class="hint">Crea una asignatura para apuntar exámenes.</div>'}</div></div>`};
+const goals=()=>{const st=stats(),gl=(sid)=>S.goals.filter(x=>(x.sid||'')===sid).map(x=>`<div class="goal${x.done?' done':''}"><input type="checkbox" ${x.done?'checked':''} data-act="tg" data-id="${x.id}"><span>${x.tr!==''&&x.tr!=null?`<span class="pill">${+x.tr+1}T</span> `:''}${esc(x.text)}</span><button class="x" data-act="del" data-k="g:${x.id}">${ARM==='g:'+x.id?'¿Seguro?':'✕'}</button></div>`).join('');
+return`<div class="two"><div class="card"><h3>🎯 Objetivo global</h3><div class="row">Nota media objetivo <input inputmode="decimal" style="width:90px;text-align:center" placeholder="–" value="${fv(S.meta.goal)}" data-f="ggoal"></div><div class="hint">Media actual: <b class="${cl(st.tot)}">${f2(st.tot)}</b></div>
+<h4>Metas globales</h4>${gl('')||'<div class="hint">Sin metas globales.</div>'}</div>
+<div class="card"><h3>Añadir meta</h3><select id="gs" style="margin-bottom:8px"><option value="">🌍 Global</option>${S.subjects.map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join('')}</select><select id="gr" style="margin-bottom:8px"><option value="">📅 Todo el curso</option><option value="0">1.º trimestre</option><option value="1">2.º trimestre</option><option value="2">3.º trimestre</option></select><input id="gt" data-enter="addgoal" placeholder="Ej. Aprobar con más de 7" style="margin-bottom:8px"><button class="btn" data-act="addgoal" style="width:100%">+ Añadir meta</button></div></div>
+<div class="grid">${S.subjects.map(s=>`<div class="card" style="border-top:5px solid ${s.color}"><h3>${esc(s.name)}</h3><table><tr><th></th>${['1T','2T','3T','Final'].map(l=>`<th class="c">${l}</th>`).join('')}</tr><tr><td>Objetivo</td>${[0,1,2].map(i=>`<td><input inputmode="decimal" style="text-align:center;padding:6px 2px" placeholder="–" value="${fv(s.gt[i])}" data-f="gt${i}" data-id="${s.id}"></td>`).join('')}<td><input inputmode="decimal" style="text-align:center;padding:6px 2px" placeholder="–" value="${fv(s.goal)}" data-f="goal" data-id="${s.id}"></td></tr><tr><td>Actual</td>${[...effT(s),fn(s)].map((v,i)=>{const g=i<3?s.gt[i]:s.goal;return`<td class="c"><b class="${cl(v)}">${f2(v)}</b>${v!=null&&g!=null?(v>=g?' ✅':' ⚠️'):''}</td>`}).join('')}</tr></table><p class="hint">${need(s)}</p>${gl(s.id)}</div>`).join('')}</div>`};
+const data=()=>`<div class="card"><h3>💾 Base de datos y copia de seguridad</h3><p class="hint">Estado: ${DB.ok?'IndexedDB activa (guardado automático en cada cambio)':'sin almacenamiento persistente: los datos solo viven en memoria'}. Registros: ${S.subjects.length} asignaturas, ${S.events.length} exámenes en calendario, ${S.goals.length} metas.</p>
+<div class="row"><button class="btn" data-act="export">Exportar copia (JSON)</button><label class="btn ghost" style="cursor:pointer">Importar copia<input type="file" accept=".json,application/json" data-f="import" style="display:none"></label><button class="btn ghost" data-act="del" data-k="reset">${ARM==='reset'?'¿Seguro? Borra todo':'Borrar todo'}</button><button class="btn ghost" data-act="del" data-k="acct">${ARM==='acct'?'¿Seguro? Elimina la cuenta':'Eliminar cuenta'}</button></div></div>`;
+function render(){if(!U)return authView();const TABS=[['dash','📊 Resumen'],['subs','📚 Asignaturas'],['cal','🗓️ Calendario'],['goals','🎯 Objetivos'],['data','💾 Datos']];
+$('#app').innerHTML=`<div class="top"><div><h1>Mi <span>Curso</span></h1><p class="sub">Notas, exámenes y objetivos en un solo lugar</p></div><div class="row"><span class="pill" id="st">${ST}</span><span class="pill">👤 ${esc(U.name)}</span><button class="btn ghost" data-act="theme">🌓</button><button class="btn ghost" data-act="logout">Salir</button></div></div><nav>${TABS.map(t=>`<button class="${TAB===t[0]?'on':''}" data-act="tab" data-t="${t[0]}">${t[1]}</button>`).join('')}</nav>${({dash,subs,cal:calV,goals,data})[TAB]()}`}
+/* ---------- eventos ---------- */
+const cascade=(k,id)=>{const g=S[k].filter(x=>x.sid===id);S[k]=S[k].filter(x=>x.sid!==id);g.forEach(x=>rm(k,x.id))};
+document.addEventListener('click',async e=>{const b=e.target.closest('[data-act]');if(!b)return;const a=b.dataset.act,id=b.dataset.id;if(a!=='del')ARM=null;if(a==='amode'){AM=b.dataset.m;AERR='';return render()}if(a==='doauth')return doAuth();if(a==='logout')return logout();
+if(a==='tab')TAB=b.dataset.t;
+else if(a==='theme'){const dk=S.meta.theme?S.meta.theme==='dark':matchMedia('(prefers-color-scheme:dark)').matches;S.meta.theme=dk?'light':'dark';document.documentElement.dataset.theme=S.meta.theme;saveMeta()}
+else if(a==='addsub'){const n=$('#nsub').value.trim();if(!n)return;const s={id:uid(),name:n,color:PAL[S.subjects.length%PAL.length],t:[null,null,null],r:[null,null,null],gt:[null,null,null],final:null,goal:null,exams:[]};S.subjects.push(s);save('subjects',s)}
+else if(a==='addex'){const s=sub(id),n=Math.min(20,Math.max(1,parseInt($('#nx-'+id).value)||1));for(let i=0;i<n;i++)s.exams.push({id:uid(),n:'Examen '+(s.exams.length+1),g:null});save('subjects',s)}
+else if(a==='del'){const k=b.dataset.k;if(ARM!==k){ARM=k}else{ARM=null;const p=k.split(':');
+ if(p[0]==='s'){S.subjects=S.subjects.filter(s=>s.id!==p[1]);cascade('events',p[1]);cascade('goals',p[1]);rm('subjects',p[1])}
+ else if(p[0]==='x'){const s=sub(p[1]);s.exams=s.exams.filter(x=>x.id!==p[2]);save('subjects',s)}
+ else if(p[0]==='e'){S.events=S.events.filter(x=>x.id!==p[1]);rm('events',p[1])}
+ else if(p[0]==='g'){S.goals=S.goals.filter(x=>x.id!==p[1]);rm('goals',p[1])}
+ else if(p[0]==='acct'){await deleteAcct();return}
+ else if(p[0]==='reset'){S={subjects:[],events:[],goals:[],meta:{goal:null,theme:S.meta.theme}};run(()=>DB.replaceAll(S))}}}
+else if(a==='prev'||a==='next'){C.m+=a==='next'?1:-1;if(C.m<0){C.m=11;C.y--}if(C.m>11){C.m=0;C.y++}}
+else if(a==='today'){C={y:now.getFullYear(),m:now.getMonth(),sel:T}}
+else if(a==='sel')C.sel=b.dataset.d;
+else if(a==='addev'){const ev={id:uid(),sid:$('#evs').value,title:$('#evt').value.trim()||'Examen',date:C.sel};S.events.push(ev);save('events',ev)}
+else if(a==='addgoal'){const t=$('#gt').value.trim();if(!t)return;const g={id:uid(),sid:$('#gs').value,text:t,tr:$('#gr').value,done:false};S.goals.push(g);save('goals',g)}
+else if(a==='tg'){const g=S.goals.find(x=>x.id===id);g.done=!g.done;save('goals',g)}
+else if(a==='export'){const txt=JSON.stringify({v:1,...S},null,2);try{const d=await window.claude.use('downloads');await d.save({filename:'registro-curso-'+T+'.json',data:txt})}catch(err){if(err&&err.code==='declined')return;try{await navigator.clipboard.writeText(txt);setSt('Copia copiada al portapapeles')}catch(_){setSt('No se pudo exportar')}}return}
+render()});
+document.addEventListener('change',async e=>{const el=e.target,f=el.dataset.f;if(!f)return;const s=sub(el.dataset.id);
+if(f==='import'){try{const d=JSON.parse(await el.files[0].text());if(![d.subjects,d.events,d.goals].every(Array.isArray))throw 0;S={subjects:d.subjects,events:d.events,goals:d.goals,meta:d.meta||{goal:null,theme:null}};S.subjects.forEach(fix);await run(()=>DB.replaceAll(S))}catch(_){setSt('Archivo no válido')}}
+else if(f==='ggoal'){S.meta.goal=num(el.value);saveMeta()}
+else if(s){if(f==='name')s.name=el.value.trim()||s.name;else if(f==='color')s.color=el.value;else if(/^t\d$/.test(f))s.t[+f[1]]=num(el.value);else if(/^gt\d$/.test(f))s.gt[+f[1]]=num(el.value);else if(/^r\d$/.test(f))s.r[+f[1]]=num(el.value);else if(f==='final')s.final=num(el.value);else if(f==='goal')s.goal=num(el.value);
+ else{const x=s.exams.find(x=>x.id===el.dataset.x);if(f==='exn')x.n=el.value;else x.g=num(el.value)}save('subjects',s)}
+render()});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.dataset.enter)document.querySelector(`[data-act=${e.target.dataset.enter}]`).click()});
+/* ---------- cuentas (registro e inicio de sesión) ---------- */
+const fix=s=>{s.r=s.r||[null,null,null];s.gt=s.gt||[null,null,null]};
+const b64=b=>btoa(String.fromCharCode(...new Uint8Array(b)));
+const hash=async(pw,salt)=>{const k=await crypto.subtle.importKey('raw',new TextEncoder().encode(pw),'PBKDF2',false,['deriveBits']);return b64(await crypto.subtle.deriveBits({name:'PBKDF2',hash:'SHA-256',salt:Uint8Array.from(atob(salt),c=>c.charCodeAt(0)),iterations:150000},k,256))};
+const AU={db:null,open(){return new Promise((r,j)=>{const q=indexedDB.open('registro-auth',1);q.onupgradeneeded=()=>q.result.createObjectStore('users',{keyPath:'id'});q.onsuccess=()=>{this.db=q.result;r()};q.onerror=()=>j(q.error)})},
+ req(m,f){return new Promise((res,rej)=>{const t=this.db.transaction('users',m),rq=f(t.objectStore('users'));t.oncomplete=()=>res(rq.result);t.onerror=t.onabort=()=>rej(t.error)})},
+ get(id){return this.req('readonly',o=>o.get(id))},put(v){return this.req('readwrite',o=>o.put(v))},del(id){return this.req('readwrite',o=>o.delete(id))},count(){return this.req('readonly',o=>o.count())}};
+const applyTheme=()=>{S.meta.theme?document.documentElement.dataset.theme=S.meta.theme:delete document.documentElement.dataset.theme};
+async function load(){[S.subjects,S.events,S.goals]=await Promise.all(['subjects','events','goals'].map(n=>DB.all(n)));S.subjects.forEach(fix);const m=(await DB.all('meta')).find(x=>x.id==='meta');if(m)S.meta={goal:m.goal??null,theme:m.theme??null};try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(_){}}
+async function migrate(){const L=Object.create(DB);L.db=null;L.ok=false;if(!await L.open('registro-curso'))return;const d={subjects:await L.all('subjects'),events:await L.all('events'),goals:await L.all('goals'),meta:(await L.all('meta')).find(x=>x.id==='meta')||{}};if(d.subjects.length||d.events.length||d.goals.length)await DB.replaceAll(d)}
+async function enter(u,rem,first){U={id:u.id,name:u.name};try{(rem?localStorage:sessionStorage).setItem('rc-s',u.id)}catch(_){}
+ S={subjects:[],events:[],goals:[],meta:{goal:null,theme:null}};DB.ok=false;DB.db=null;await DB.open('rc-'+u.id);if(DB.ok){if(first)await migrate();await load()}
+ TAB='dash';ST=DB.ok?'Guardado ✓':'Solo en memoria';applyTheme();render()}
+async function doAuth(){const n=$('#au').value.trim(),p=$('#ap').value,id=n.toLowerCase(),rem=$('#ar').checked;AN=n;AERR='';
+ try{if(!/^[\w.\-]{3,24}$/.test(n))throw'El usuario debe tener 3-24 caracteres (letras, números, . _ -)';if(p.length<6)throw'La contraseña debe tener al menos 6 caracteres';
+  if(AM==='reg'){if(p!==$('#ap2').value)throw'Las contraseñas no coinciden';if(await AU.get(id))throw'Ese usuario ya existe';const salt=b64(crypto.getRandomValues(new Uint8Array(16))),first=await AU.count()===0;await AU.put({id,name:n,salt,hash:await hash(p,salt)});await enter({id,name:n},rem,first)}
+  else{if(Date.now()<LOCK)throw'Demasiados intentos. Espera 30 segundos.';const u=await AU.get(id);if(!u||await hash(p,u.salt)!==u.hash){if(++FAIL>=5){LOCK=Date.now()+30000;FAIL=0}throw'Usuario o contraseña incorrectos'}FAIL=0;await enter(u,rem)}
+ }catch(e){AERR=typeof e==='string'?e:'No se pudo completar la operación';render()}}
+function logout(){try{localStorage.removeItem('rc-s');sessionStorage.removeItem('rc-s')}catch(_){}if(DB.db)DB.db.close();DB.db=null;DB.ok=false;U=null;AN='';AERR='';AM='login';S={subjects:[],events:[],goals:[],meta:{goal:null,theme:null}};applyTheme();render()}
+async function deleteAcct(){const id=U.id;await AU.del(id);if(DB.db)DB.db.close();try{indexedDB.deleteDatabase('rc-'+id)}catch(_){}logout()}
+function authView(){const r=AM==='reg';$('#app').innerHTML=`<div class="auth"><h1 style="text-align:center">Mi <span>Curso</span></h1><p class="sub" style="text-align:center;margin-bottom:18px">Registro de notas, exámenes y objetivos</p><div class="card"><nav style="margin-top:0"><button class="${r?'':'on'}" data-act="amode" data-m="login" style="flex:1">Iniciar sesión</button><button class="${r?'on':''}" data-act="amode" data-m="reg" style="flex:1">Crear cuenta</button></nav>
+<input id="au" placeholder="Usuario" autocomplete="username" value="${esc(AN)}" data-enter="doauth"><input id="ap" type="password" placeholder="Contraseña" autocomplete="${r?'new-password':'current-password'}" data-enter="doauth">${r?'<input id="ap2" type="password" placeholder="Repite la contraseña" autocomplete="new-password" data-enter="doauth">':''}
+<label class="hint" style="display:flex;gap:8px;align-items:center;margin-bottom:12px"><input id="ar" type="checkbox" checked style="width:auto;margin:0"> Mantener la sesión iniciada</label>${AERR?`<p class="err">${esc(AERR)}</p>`:''}<button class="btn" data-act="doauth" style="width:100%">${r?'Crear cuenta y entrar':'Entrar'}</button>
+<p class="hint" style="margin-top:12px;text-align:center">Cada cuenta guarda sus datos de forma privada en este navegador.</p></div></div>`}
+/* ---------- arranque ---------- */
+(async()=>{try{await AU.open();let sid=null,rem=false;try{sid=localStorage.getItem('rc-s');rem=!!sid;sid=sid||sessionStorage.getItem('rc-s')}catch(_){}const u=sid&&await AU.get(sid);if(u)await enter(u,rem);else render()}catch(e){AERR='Tu navegador no permite guardar cuentas (¿modo privado?)';render()}})();
+</script></body></html>
